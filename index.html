@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ask Nietzsche</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky-deep: #131a24;
+    --sky-mid: #1e2836;
+    --stone: #3a4750;
+    --gold: #c9a66b;
+    --gold-dim: #8a744f;
+    --chalk: #ece4d3;
+    --chalk-dim: #a9a596;
+    --umber: #6b4226;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(ellipse at 50% -10%, var(--sky-mid), var(--sky-deep) 60%);
+    color: var(--chalk);
+    font-family: 'Source Serif 4', serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* faint stars */
+  .stars {
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 20% 20%, rgba(236,228,211,0.5), transparent),
+      radial-gradient(1px 1px at 70% 10%, rgba(236,228,211,0.4), transparent),
+      radial-gradient(1px 1px at 40% 35%, rgba(236,228,211,0.3), transparent),
+      radial-gradient(1px 1px at 85% 30%, rgba(236,228,211,0.4), transparent),
+      radial-gradient(1px 1px at 55% 15%, rgba(236,228,211,0.3), transparent),
+      radial-gradient(1px 1px at 10% 45%, rgba(236,228,211,0.3), transparent);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .ridge {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 160px;
+    z-index: 1;
+    opacity: 0.9;
+    pointer-events: none;
+  }
+
+  main {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 680px;
+    padding: 56px 24px 200px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(2.2rem, 6vw, 3.2rem);
+    letter-spacing: 0.02em;
+    margin: 0;
+    color: var(--chalk);
+    text-shadow: 0 1px 0 rgba(0,0,0,0.4), 0 0 24px rgba(201,166,107,0.15);
+  }
+
+  .subtitle {
+    font-style: italic;
+    color: var(--chalk-dim);
+    font-size: 0.95rem;
+    margin: 10px 0 0;
+    letter-spacing: 0.01em;
+  }
+
+  .divider {
+    width: 90px;
+    height: 1px;
+    margin: 22px auto 30px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+
+  .mode-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 34px;
+  }
+
+  .mode-btn {
+    font-family: 'Fraunces', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: transparent;
+    border: 1px solid var(--stone);
+    color: var(--chalk-dim);
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  .mode-btn.active {
+    border-color: var(--gold);
+    color: var(--gold);
+    box-shadow: 0 0 12px rgba(201,166,107,0.2) inset;
+  }
+
+  .mode-btn:hover { color: var(--chalk); }
+
+  .mode-caption {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--chalk-dim);
+    font-style: italic;
+    margin: -22px 0 30px;
+    min-height: 1.2em;
+  }
+
+  form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+
+  input[type="text"] {
+    flex: 1;
+    background: rgba(58,71,80,0.35);
+    border: 1px solid var(--stone);
+    color: var(--chalk);
+    font-family: 'Source Serif 4', serif;
+    font-size: 1rem;
+    padding: 14px 16px;
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+
+  input[type="text"]:focus {
+    border-color: var(--gold);
+  }
+
+  input[type="text"]::placeholder {
+    color: var(--chalk-dim);
+    font-style: italic;
+  }
+
+  button[type="submit"] {
+    font-family: 'Fraunces', serif;
+    background: var(--gold);
+    color: var(--sky-deep);
+    border: none;
+    padding: 0 26px;
+    font-size: 0.95rem;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    transition: filter 0.2s ease;
+  }
+
+  button[type="submit"]:hover { filter: brightness(1.1); }
+  button[type="submit"]:disabled { opacity: 0.5; cursor: default; }
+
+  .exchange {
+    margin-bottom: 36px;
+    animation: reveal 0.5s ease both;
+  }
+
+  @keyframes reveal {
+    from { opacity: 0; clip-path: inset(0 0 100% 0); }
+    to { opacity: 1; clip-path: inset(0 0 0% 0); }
+  }
+
+  .question {
+    font-style: italic;
+    color: var(--chalk-dim);
+    font-size: 0.95rem;
+    margin-bottom: 14px;
+    padding-left: 14px;
+    border-left: 2px solid var(--stone);
+  }
+
+  .tablet {
+    background: linear-gradient(180deg, rgba(58,71,80,0.28), rgba(58,71,80,0.08));
+    border-top: 1px solid rgba(201,166,107,0.4);
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+    padding: 26px 28px;
+    position: relative;
+  }
+
+  .tablet::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(201,166,107,0.6), transparent);
+  }
+
+  .tablet p {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    margin: 0;
+    color: var(--chalk);
+    text-shadow: 0 1px 0 rgba(0,0,0,0.5);
+  }
+
+  .tablet .source {
+    display: block;
+    margin-top: 14px;
+    font-family: 'Source Serif 4', serif;
+    font-style: italic;
+    font-size: 0.8rem;
+    color: var(--gold-dim);
+    text-align: right;
+  }
+
+  .loading {
+    color: var(--chalk-dim);
+    font-style: italic;
+    font-size: 0.95rem;
+    padding: 10px 0;
+  }
+
+  .error {
+    color: #c17b6b;
+    font-style: italic;
+    font-size: 0.9rem;
+  }
+
+  .empty-state {
+    text-align: center;
+    color: var(--chalk-dim);
+    font-style: italic;
+    font-size: 0.95rem;
+    margin-top: 20px;
+    line-height: 1.7;
+  }
+
+  footer {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--chalk-dim);
+    padding-bottom: 24px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .exchange { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stars"></div>
+<svg class="ridge" viewBox="0 0 1200 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="0,160 0,90 150,40 300,100 420,20 600,90 760,50 900,110 1050,60 1200,100 1200,160" fill="#0e141c" opacity="0.9"/>
+  <polygon points="0,160 0,120 200,80 380,130 550,70 700,120 880,90 1050,130 1200,110 1200,160" fill="#0a0f16"/>
+</svg>
+
+<main>
+  <header>
+    <h1>Ask Nietzsche</h1>
+    <p class="subtitle">A conversation at the edge of the abyss</p>
+  </header>
+
+  <div class="divider"></div>
+
+  <div class="mode-toggle">
+    <button class="mode-btn active" data-mode="classic" id="btn-classic">Classic</button>
+    <button class="mode-btn" data-mode="modern" id="btn-modern">Modern</button>
+  </div>
+  <p class="mode-caption" id="mode-caption">Genuine ideas from his published works, matched to your question.</p>
+
+  <form id="ask-form">
+    <input type="text" id="question" placeholder="What troubles you?" autocomplete="off" required />
+    <button type="submit" id="submit-btn">Ask</button>
+  </form>
+
+  <div id="exchanges"></div>
+  <div class="empty-state" id="empty-state">Pose a question on suffering, truth, love, solitude, or the will to power — and see what answers you.</div>
+</main>
+
+<footer>Responses are AI-assisted interpretations, not verbatim historical quotations except where cited.</footer>
+
+<script>
+  const form = document.getElementById('ask-form');
+  const input = document.getElementById('question');
+  const submitBtn = document.getElementById('submit-btn');
+  const exchanges = document.getElementById('exchanges');
+  const emptyState = document.getElementById('empty-state');
+  const btnClassic = document.getElementById('btn-classic');
+  const btnModern = document.getElementById('btn-modern');
+  const modeCaption = document.getElementById('mode-caption');
+
+  let mode = 'classic';
+
+  const captions = {
+    classic: 'Genuine ideas from his published works, matched to your question.',
+    modern: 'A new response, written fresh in his voice by an AI model.'
+  };
+
+  function setMode(newMode) {
+    mode = newMode;
+    btnClassic.classList.toggle('active', mode === 'classic');
+    btnModern.classList.toggle('active', mode === 'modern');
+    modeCaption.textContent = captions[mode];
+  }
+
+  btnClassic.addEventListener('click', () => setMode('classic'));
+  btnModern.addEventListener('click', () => setMode('modern'));
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const question = input.value.trim();
+    if (!question) return;
+
+    emptyState.style.display = 'none';
+    submitBtn.disabled = true;
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'exchange';
+    wrapper.innerHTML = `
+      <div class="question">${escapeHtml(question)}</div>
+      <div class="tablet"><p class="loading">Nietzsche considers this...</p></div>
+    `;
+    exchanges.prepend(wrapper);
+    input.value = '';
+
+    try {
+      const res = await fetch('/api/ask', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question, mode })
+      });
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error || 'Something went wrong');
+
+      const tablet = wrapper.querySelector('.tablet');
+      tablet.innerHTML = `
+        <p>${escapeHtml(data.answer)}</p>
+        ${data.source ? `<span class="source">— ${escapeHtml(data.source)}</span>` : ''}
+      `;
+    } catch (err) {
+      const tablet = wrapper.querySelector('.tablet');
+      tablet.innerHTML = `<p class="error">${escapeHtml(err.message)}</p>`;
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+</script>
+
+</body>
+</html>
