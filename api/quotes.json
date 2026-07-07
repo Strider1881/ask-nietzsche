@@ -1,0 +1,22 @@
+[
+  { "themes": ["suffering", "pain", "hardship", "struggle", "difficult"], "quote": "That which does not kill us makes us stronger.", "source": "Twilight of the Idols" },
+  { "themes": ["god", "religion", "faith", "belief", "meaning"], "quote": "God is dead. And we have killed him.", "source": "The Gay Science" },
+  { "themes": ["self", "identity", "become", "growth", "purpose"], "quote": "Become who you are.", "source": "The Gay Science" },
+  { "themes": ["danger", "risk", "living", "life", "adventure"], "quote": "Live dangerously.", "source": "The Gay Science" },
+  { "themes": ["monster", "evil", "enemy", "fight", "abyss"], "quote": "He who fights with monsters should look to it that he himself does not become a monster. And if you gaze long into an abyss, the abyss also gazes into you.", "source": "Beyond Good and Evil" },
+  { "themes": ["love", "hate", "distance", "friendship", "relationship"], "quote": "Love is blind; friendship closes its eyes.", "source": "Human, All Too Human" },
+  { "themes": ["truth", "lies", "certainty", "doubt", "knowledge"], "quote": "There are no facts, only interpretations.", "source": "Notebooks" },
+  { "themes": ["morality", "good", "evil", "ethics", "values"], "quote": "There are no moral phenomena at all, only a moral interpretation of phenomena.", "source": "Beyond Good and Evil" },
+  { "themes": ["madness", "chaos", "order", "creativity", "art"], "quote": "One must still have chaos in oneself to be able to give birth to a dancing star.", "source": "Thus Spoke Zarathustra" },
+  { "themes": ["why", "meaning", "purpose", "endure", "reason"], "quote": "He who has a why to live can bear almost any how.", "source": "Twilight of the Idols" },
+  { "themes": ["convictions", "belief", "dogma", "prison", "freedom"], "quote": "Convictions are more dangerous enemies of truth than lies.", "source": "Human, All Too Human" },
+  { "themes": ["solitude", "alone", "loneliness", "crowd", "society"], "quote": "In solitude the lonely person is eaten up by himself, among crowds by the many.", "source": "Beyond Good and Evil" },
+  { "themes": ["dance", "joy", "lightness", "seriousness", "gravity"], "quote": "I would only believe in a god who could dance.", "source": "Thus Spoke Zarathustra" },
+  { "themes": ["mistakes", "regret", "past", "shame", "forgive"], "quote": "My memory says, 'I did that.' My pride replies, 'I could not have done that.' Eventually, memory yields.", "source": "Beyond Good and Evil" },
+  { "themes": ["strength", "weakness", "power", "will", "ambition"], "quote": "The will to power.", "source": "Beyond Good and Evil" },
+  { "themes": ["boredom", "work", "routine", "meaning", "life"], "quote": "He who cannot give anything away cannot feel anything either.", "source": "Notebooks" },
+  { "themes": ["death", "mortality", "fear", "ending"], "quote": "The thought of death gives me great happiness.", "source": "The Gay Science" },
+  { "themes": ["overcome", "self-improvement", "change", "transformation"], "quote": "Man is something that shall be overcome.", "source": "Thus Spoke Zarathustra" },
+  { "themes": ["art", "beauty", "life", "meaning", "existence"], "quote": "We have art in order not to die of the truth.", "source": "Notebooks" },
+  { "themes": ["freedom", "independence", "herd", "conformity", "society"], "quote": "The individual has always had to struggle to keep from being overwhelmed by the tribe.", "source": "Notebooks" }
+]
