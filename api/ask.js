@@ -1,29 +1,3 @@
-const quotes = require('./quotes.json');
-
-// Very small keyword scorer for Classic mode — no embeddings needed for an MVP.
-function findBestQuote(question) {
-  const q = question.toLowerCase();
-  let best = null;
-  let bestScore = 0;
-
-  for (const entry of quotes) {
-    let score = 0;
-    for (const theme of entry.themes) {
-      if (q.includes(theme)) score += 1;
-    }
-    if (score > bestScore) {
-      bestScore = score;
-      best = entry;
-    }
-  }
-
-  // Fallback: no theme matched, so let Nietzsche speak generally about the questioner.
-  if (!best) {
-    best = quotes[Math.floor(Math.random() * quotes.length)];
-  }
-  return best;
-}
-
 const SYSTEM_PROMPT = `You are a creative-writing persona modeled on Friedrich Nietzsche's published philosophy and style, for an entertainment/education app called "Ask Nietzsche". You are NOT claiming to be the real historical Nietzsche and you are not producing real quotes — you are writing NEW aphoristic responses in his voice and conceptual world (will to power, eternal recurrence, the Übermensch, master/slave morality, amor fati, the death of God, critique of herd morality).
 
 Style rules:
@@ -38,23 +12,12 @@ module.exports = async (req, res) => {
     return;
   }
 
-  const { question, mode } = req.body || {};
+  const { question } = req.body || {};
   if (!question || typeof question !== 'string') {
     res.status(400).json({ error: 'Missing "question" string in body' });
     return;
   }
 
-  if (mode === 'classic') {
-    const match = findBestQuote(question);
-    res.status(200).json({
-      mode: 'classic',
-      answer: match.quote,
-      source: match.source,
-    });
-    return;
-  }
-
-  // Modern mode: call the Anthropic API
   if (!process.env.ANTHROPIC_API_KEY) {
     res.status(500).json({ error: 'ANTHROPIC_API_KEY is not set on the server.' });
     return;
@@ -88,7 +51,7 @@ module.exports = async (req, res) => {
       .join('\n')
       .trim();
 
-    res.status(200).json({ mode: 'modern', answer });
+    res.status(200).json({ answer });
   } catch (err) {
     res.status(500).json({ error: 'Request failed', detail: String(err) });
   }
