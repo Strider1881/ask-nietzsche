@@ -97,43 +97,6 @@
     background: linear-gradient(to right, transparent, var(--gold), transparent);
   }
 
-  .mode-toggle {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 34px;
-  }
-
-  .mode-btn {
-    font-family: 'Fraunces', serif;
-    font-size: 0.85rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    background: transparent;
-    border: 1px solid var(--stone);
-    color: var(--chalk-dim);
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: all 0.25s ease;
-  }
-
-  .mode-btn.active {
-    border-color: var(--gold);
-    color: var(--gold);
-    box-shadow: 0 0 12px rgba(201,166,107,0.2) inset;
-  }
-
-  .mode-btn:hover { color: var(--chalk); }
-
-  .mode-caption {
-    text-align: center;
-    font-size: 0.8rem;
-    color: var(--chalk-dim);
-    font-style: italic;
-    margin: -22px 0 30px;
-    min-height: 1.2em;
-  }
-
   form {
     display: flex;
     gap: 10px;
@@ -221,16 +184,6 @@
     text-shadow: 0 1px 0 rgba(0,0,0,0.5);
   }
 
-  .tablet .source {
-    display: block;
-    margin-top: 14px;
-    font-family: 'Source Serif 4', serif;
-    font-style: italic;
-    font-size: 0.8rem;
-    color: var(--gold-dim);
-    text-align: right;
-  }
-
   .loading {
     color: var(--chalk-dim);
     font-style: italic;
@@ -283,12 +236,6 @@
 
   <div class="divider"></div>
 
-  <div class="mode-toggle">
-    <button class="mode-btn active" data-mode="classic" id="btn-classic">Classic</button>
-    <button class="mode-btn" data-mode="modern" id="btn-modern">Modern</button>
-  </div>
-  <p class="mode-caption" id="mode-caption">Genuine ideas from his published works, matched to your question.</p>
-
   <form id="ask-form">
     <input type="text" id="question" placeholder="What troubles you?" autocomplete="off" required />
     <button type="submit" id="submit-btn">Ask</button>
@@ -298,7 +245,7 @@
   <div class="empty-state" id="empty-state">Pose a question on suffering, truth, love, solitude, or the will to power — and see what answers you.</div>
 </main>
 
-<footer>Responses are AI-assisted interpretations, not verbatim historical quotations except where cited.</footer>
+<footer>Responses are AI-assisted interpretations, not verbatim historical quotations.</footer>
 
 <script>
   const form = document.getElementById('ask-form');
@@ -306,26 +253,6 @@
   const submitBtn = document.getElementById('submit-btn');
   const exchanges = document.getElementById('exchanges');
   const emptyState = document.getElementById('empty-state');
-  const btnClassic = document.getElementById('btn-classic');
-  const btnModern = document.getElementById('btn-modern');
-  const modeCaption = document.getElementById('mode-caption');
-
-  let mode = 'classic';
-
-  const captions = {
-    classic: 'Genuine ideas from his published works, matched to your question.',
-    modern: 'A new response, written fresh in his voice by an AI model.'
-  };
-
-  function setMode(newMode) {
-    mode = newMode;
-    btnClassic.classList.toggle('active', mode === 'classic');
-    btnModern.classList.toggle('active', mode === 'modern');
-    modeCaption.textContent = captions[mode];
-  }
-
-  btnClassic.addEventListener('click', () => setMode('classic'));
-  btnModern.addEventListener('click', () => setMode('modern'));
 
   function escapeHtml(str) {
     const div = document.createElement('div');
@@ -354,17 +281,14 @@
       const res = await fetch('/api/ask', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question, mode })
+        body: JSON.stringify({ question })
       });
       const data = await res.json();
 
       if (!res.ok) throw new Error(data.error || 'Something went wrong');
 
       const tablet = wrapper.querySelector('.tablet');
-      tablet.innerHTML = `
-        <p>${escapeHtml(data.answer)}</p>
-        ${data.source ? `<span class="source">— ${escapeHtml(data.source)}</span>` : ''}
-      `;
+      tablet.innerHTML = `<p>${escapeHtml(data.answer)}</p>`;
     } catch (err) {
       const tablet = wrapper.querySelector('.tablet');
       tablet.innerHTML = `<p class="error">${escapeHtml(err.message)}</p>`;
